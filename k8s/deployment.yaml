@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tree-rest
+  namespace: tree
+spec:
+  selector:
+    matchLabels:
+      app: tree_rest
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tree_rest
+    spec:
+      containers:
+      - name: tree-rest
+        image: tree_rest:latest
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - name: http
+          containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /tree
+            port: http
+          
